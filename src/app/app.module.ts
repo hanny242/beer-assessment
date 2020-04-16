@@ -8,6 +8,7 @@ import { BeersComponent } from './beers/beers.component';
 
 import { BeerService } from './services/beer.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,

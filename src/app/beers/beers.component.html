@@ -1,1 +1,6 @@
-<p>beers works!</p>
+<h2>Beers</h2>
+<ul class="beers">
+    <li *ngFor="let beer of beers">
+    <span class="badge">{{beer.name}}</span> {{beer.type}}
+  </li>
+</ul>
