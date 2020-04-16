@@ -5,13 +5,14 @@ import { Observable, throwError, of } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 import { Beer } from '../models/beer';
+import { Beers } from '../mock-beers';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class BeerService {
-  uri = 'http://localhost:4000';
+  uri = 'http://localhost:4000/beers';
 
   constructor(private http: HttpClient) { }
 
@@ -19,8 +20,7 @@ export class BeerService {
     return this.http.get<Beer[]>(this.uri)
     .pipe(
       retry(1),
-      catchError(this.handleError)
-  );
+      catchError(this.handleError));
   }
 
   searchBeers(term: string): Observable<Beer[]> {
@@ -28,14 +28,15 @@ export class BeerService {
       // if not search term, return empty Beer array.
       return of([]);
     }
-    return this.http.get<Beer[]>(`${this.uri}/?name=${term}`).pipe(
+
+    return this.http.get<Beer[]>(`${this.uri}?name=${term}`).pipe(
       retry(1),
       catchError(this.handleError)
   );
   }
 
   getBeersByCountry(country: string): Observable<Beer[]> {
-    const url = `${this.uri}/?country=${country}`;
+    const url = `${this.uri}?country=${country}`;
     return this.http.get<Beer[]>(url)
     .pipe(
       retry(1),
@@ -44,7 +45,7 @@ export class BeerService {
   }
 
   getBeersByType(type: string): Observable<Beer[]> {
-    const url = `${this.uri}/?type=${type}`;
+    const url = `${this.uri}?type=${type}`;
     return this.http.get<Beer[]>(url)
     .pipe(
       retry(1),

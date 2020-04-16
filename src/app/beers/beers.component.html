@@ -1,6 +1,10 @@
 <h2>Beers</h2>
+<div class="search-container">  
+    <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
+    <button (click)="onSearch()">Submit</button>
+</div>
 <ul class="beers">
-    <li *ngFor="let beer of beers">
+    <li *ngFor="let beer of beers | async">
     <span class="badge">{{beer.name}}</span> {{beer.type}}
   </li>
 </ul>

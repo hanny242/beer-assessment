@@ -1,6 +1,6 @@
 import { Beer } from './models/beer';
 
-export const BEERS: Beer[] = [{
+export const Beers: Beer[] = [{
     id: 1,
     name: 'Toma',
     country: 'Barrable',

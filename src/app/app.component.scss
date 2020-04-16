@@ -4,5 +4,6 @@ h1 {
 }
 
 div {
-    background-image:linear-gradient(to rgb(238, 201, 146), rgb(172, 110, 59), rgb(105, 63, 38) ) ;
+    background: -webkit-linear-gradient( rgb(238, 201, 146), rgb(105, 63, 38) ) ;
+    padding: 2vh;
 }
