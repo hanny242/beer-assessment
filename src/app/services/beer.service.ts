@@ -5,7 +5,7 @@ import { Observable, throwError, of } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 import { Beer } from '../models/beer';
-import { Beers } from '../mock-beers';
+import { Style } from '../models/style';
 
 
 @Injectable({
@@ -18,6 +18,14 @@ export class BeerService {
 
   getBeers(): Observable<Beer[]> {
     return this.http.get<Beer[]>(this.uri)
+    .pipe(
+      retry(1),
+      catchError(this.handleError));
+  }
+
+  getStyles(): Observable<Style[]> {
+    const url = 'http://localhost:4000/styles';
+    return this.http.get<Style[]>(url)
     .pipe(
       retry(1),
       catchError(this.handleError));
@@ -44,8 +52,8 @@ export class BeerService {
   );
   }
 
-  getBeersByType(type: string): Observable<Beer[]> {
-    const url = `${this.uri}?type=${type}`;
+  getBeersByStyle(id: number): Observable<Beer[]> {
+    const url = `http://localhost:4000/beers?styleId=${id}`;
     return this.http.get<Beer[]>(url)
     .pipe(
       retry(1),

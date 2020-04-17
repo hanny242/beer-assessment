@@ -4,5 +4,5 @@ export interface Beer {
     country: string;
     brewery: string;
     type: string;
-    picture: string;
+    styleId: number;
 }

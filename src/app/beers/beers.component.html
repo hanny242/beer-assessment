@@ -3,8 +3,11 @@
     <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
     <button (click)="onSearch()">Submit</button>
 </div>
+<select [(ngModel)]="styleValue" (change)="onStyleSelect()">
+  <option *ngFor="let style of styles | async">{{style.type}}</option>
+</select>
 <ul class="beers">
-    <li *ngFor="let beer of beers | async">
+  <li *ngFor="let beer of beers | async">
     <span class="badge">{{beer.name}}</span> {{beer.type}}
   </li>
 </ul>
