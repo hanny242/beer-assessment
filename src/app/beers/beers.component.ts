@@ -40,6 +40,7 @@ export class BeersComponent implements OnInit {
   async getStyleByName(name: string): Promise<number> {
      return await this.styles.pipe(map(styles => {
         const style = styles.filter(s => s.name === name);
+        debugger;
         return (style.length > 0) ? style[0].id : null;
       })).toPromise();
   }

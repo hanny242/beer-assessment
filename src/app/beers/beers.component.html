@@ -4,7 +4,7 @@
     <button (click)="onSearch()">Submit</button>
 </div>
 <select [(ngModel)]="styleValue" (change)="onStyleSelect()">
-  <option *ngFor="let style of styles | async">{{style.type}}</option>
+  <option *ngFor="let style of styles | async">{{style.name}}</option>
 </select>
 <ul class="beers">
   <li *ngFor="let beer of beers | async">
