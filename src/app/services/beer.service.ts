@@ -6,6 +6,7 @@ import { retry, catchError } from 'rxjs/operators';
 
 import { Beer } from '../models/beer';
 import { Style } from '../models/style';
+import { Country } from '../models/country';
 
 
 @Injectable({
@@ -31,6 +32,15 @@ export class BeerService {
       catchError(this.handleError));
   }
 
+  getCountries(): Observable<Country[]> {
+    const url = 'http://localhost:4000/locations';
+    return this.http.get<Country[]>(url)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+
   searchBeers(term: string): Observable<Beer[]> {
     if (!term.trim()) {
       // if not search term, return empty Beer array.
@@ -43,8 +53,8 @@ export class BeerService {
   );
   }
 
-  getBeersByCountry(country: string): Observable<Beer[]> {
-    const url = `${this.uri}?country=${country}`;
+  getBeersByCountry(countryCode: string): Observable<Beer[]> {
+    const url = `${this.uri}?countryCode=${countryCode}`;
     return this.http.get<Beer[]>(url)
     .pipe(
       retry(1),

@@ -3,11 +3,16 @@
     <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
     <button (click)="onSearch()">Submit</button>
 </div>
-<select [(ngModel)]="styleValue" (change)="onStyleSelect()">
-  <option *ngFor="let style of styles | async">{{style.name}}</option>
+<select [(ngModel)]="selectedStyleId" (change)="onStyleSelect()">
+  <option [ngValue]="-1">Choose a style</option>
+  <option *ngFor="let style of styles | async" [ngValue]="style.id">{{style.name}}</option>
+</select>
+<select [(ngModel)]="selectedCountryCode" (change)="onCountrySelect()">
+  <option [ngValue]="'placeholder'">Choose a country</option>
+  <option *ngFor="let country of countries | async" [ngValue]="country.isoCode">{{country.name}}</option>
 </select>
 <ul class="beers">
   <li *ngFor="let beer of beers | async">
-    <span class="badge">{{beer.name}}</span> {{beer.type}}
+    <span class="badge">{{beer.name}}</span>
   </li>
 </ul>

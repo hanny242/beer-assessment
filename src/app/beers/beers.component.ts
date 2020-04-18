@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Beer } from '../models/beer';
 import { Style } from '../models/style';
+import { Country } from '../models/country';
 import { BeerService } from '../services/beer.service';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,34 +15,33 @@ import { map } from 'rxjs/operators';
 export class BeersComponent implements OnInit {
   beers: Observable<Beer[]>;
   styles: Observable<Style[]>;
+  countries: Observable<Country[]>;
   searchName: string;
-  styleValue: string;
+  selectedStyleId: number;
+  selectedCountryCode: string;
   beerService: BeerService;
 
   constructor(beerService: BeerService) {
-    this.beerService = beerService;
+    this.beerService = beerService;    
+    this.selectedStyleId = -1;
+    this.selectedCountryCode = "placeholder";
   }
 
   async ngOnInit() {
-    this.beers = await this.beerService.getBeers();
-    this.styles = await this.beerService.getStyles();
+    this.beers = this.beerService.getBeers();
+    this.styles = this.beerService.getStyles();
+    this.countries = this.beerService.getCountries();
   }
 
-  async onSearch(): Promise<void> {
+  onSearch(): void {
     this.beers = this.beerService.searchBeers(this.searchName);
   }
 
-  async onStyleSelect(): Promise<void> {
-    const styleId = await this.getStyleByName(this.styleValue);
-
-    this.beers = await this.beerService.getBeersByStyle(styleId);
+  onStyleSelect(): void {
+    this.beers = this.beerService.getBeersByStyle(this.selectedStyleId);
   }
 
-  async getStyleByName(name: string): Promise<number> {
-     return await this.styles.pipe(map(styles => {
-        const style = styles.filter(s => s.name === name);
-        debugger;
-        return (style.length > 0) ? style[0].id : null;
-      })).toPromise();
-  }
+  onCountrySelect(): void {
+    this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode);
+  } 
 }
