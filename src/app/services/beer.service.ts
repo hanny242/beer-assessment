@@ -17,6 +17,7 @@ export class BeerService {
 
   constructor(private http: HttpClient) { }
 
+  //initial data requests
   getBeers(): Observable<Beer[]> {
     return this.http.get<Beer[]>(this.uri)
     .pipe(
@@ -41,6 +42,7 @@ export class BeerService {
     );
   }
 
+  //queries
   searchBeers(term: string): Observable<Beer[]> {
     if (!term.trim()) {
       // if not search term, return empty Beer array.
@@ -54,7 +56,7 @@ export class BeerService {
   }
 
   getBeersByCountry(countryCode: string): Observable<Beer[]> {
-    const url = `${this.uri}?countryCode=${countryCode}`;
+    const url = `http://localhost:4000/locations?countryCode=${countryCode}`;
     return this.http.get<Beer[]>(url)
     .pipe(
       retry(1),

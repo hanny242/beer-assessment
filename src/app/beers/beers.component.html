@@ -1,18 +1,29 @@
-<h2>Beers</h2>
-<div class="search-container">  
-    <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
+<div class="beer-component">
+  <h2>Beer Search</h2>
+  <div class="search-container">
+    <input type="text" placeholder="Search by name" [(ngModel)]="searchName" />
     <button (click)="onSearch()">Submit</button>
+  </div>
+  <div class="drop-downs">
+    <!-- used ngModel and ngValue to change option value to style.id and country.isoCode for query params -->
+    <select [(ngModel)]="selectedStyleId" (change)="onStyleSelect()">
+      <option [ngValue]="-1">Choose a style</option>
+      <option *ngFor="let style of styles | async" [ngValue]="style.id">{{
+        style.name
+      }}</option>
+    </select>
+    <select [(ngModel)]="selectedCountryCode" (change)="onCountrySelect()">
+      <option [ngValue]="'placeholder'">Choose a country</option>
+      <option
+        *ngFor="let country of countries | async"
+        [ngValue]="country.isoCode"
+        >{{ country.name }}</option
+      >
+    </select>
+  </div>
+  <ul class="beers">
+    <li *ngFor="let beer of beers | async">
+      <span>{{ beer.name }}</span>
+    </li>
+  </ul>
 </div>
-<select [(ngModel)]="selectedStyleId" (change)="onStyleSelect()">
-  <option [ngValue]="-1">Choose a style</option>
-  <option *ngFor="let style of styles | async" [ngValue]="style.id">{{style.name}}</option>
-</select>
-<select [(ngModel)]="selectedCountryCode" (change)="onCountrySelect()">
-  <option [ngValue]="'placeholder'">Choose a country</option>
-  <option *ngFor="let country of countries | async" [ngValue]="country.isoCode">{{country.name}}</option>
-</select>
-<ul class="beers">
-  <li *ngFor="let beer of beers | async">
-    <span class="badge">{{beer.name}}</span>
-  </li>
-</ul>

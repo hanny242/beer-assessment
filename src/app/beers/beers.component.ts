@@ -39,9 +39,11 @@ export class BeersComponent implements OnInit {
 
   onStyleSelect(): void {
     this.beers = this.beerService.getBeersByStyle(this.selectedStyleId);
+    this.selectedCountryCode = "placeholder";
   }
 
   onCountrySelect(): void {
     this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode);
+    this.selectedStyleId = -1;
   } 
 }
