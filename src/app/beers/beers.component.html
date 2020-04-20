@@ -1,7 +1,7 @@
 <div class="beer-component">
   <h2>Beer Search</h2>
   <div class="search-container">
-    <input type="text" placeholder="Search by name" [(ngModel)]="searchName" />
+    <input (change)="onSearch()" type="text" placeholder="Search by name" [(ngModel)]="searchName" />
     <button (click)="onSearch()">Submit</button>
   </div>
   <div class="drop-downs">
@@ -13,7 +13,7 @@
       }}</option>
     </select>
     <select [(ngModel)]="selectedCountryCode" (change)="onCountrySelect()">
-      <option [ngValue]="'placeholder'">Choose a country</option>
+      <option [ngValue]="'default'">Choose a country</option>
       <option
         *ngFor="let country of countries | async"
         [ngValue]="country.isoCode"
@@ -23,19 +23,14 @@
   </div>
   <div class="list">
     <ul class="beers">
-      <li
-        *ngFor="
-          let beer of beers
-            | async
-            | paginate: config
-        "
-      >
+      <li *ngFor="let beer of beers | async">
         <span>{{ beer.name }}</span>
       </li>
     </ul>
-    <pagination-controls
-      (onPageSelect)="p = $event"
-      maxSize="beers.numberOfPages"
-    ></pagination-controls>
+    <div class="pagination">
+    <a class="previous" (click)="previousPage()">&#8249;</a>
+      <p>{{pageNumber}}</p>
+    <a class="next" (click)="nextPage()">&#8250;</a>
+  </div>
   </div>
 </div>

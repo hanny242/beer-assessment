@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
-import { Beers } from '../models/beer';
 import { Beer } from '../models/beer';
 import { Style } from '../models/style';
 import { Country } from '../models/country';
@@ -19,8 +18,8 @@ export class BeerService {
   constructor(private http: HttpClient) { }
 
   // initial data requests
-  getBeers(page: number): Observable<Beers> {
-    return this.http.get<Beers>(`${this.uri}?page=${page}`)
+  getBeers(page: number): Observable<Beer[]> {
+    return this.http.get<Beer[]>(`${this.uri}?page=${page}`)
     .pipe(
       retry(1),
       catchError(this.handleError));
@@ -35,7 +34,7 @@ export class BeerService {
   }
 
   getCountries(): Observable<Country[]> {
-    const url = 'http://localhost:4000/locations';
+    const url = 'http://localhost:4000/countries';
     return this.http.get<Country[]>(url)
     .pipe(
       retry(1),
@@ -46,8 +45,8 @@ export class BeerService {
   // queries
   searchBeers(term: string): Observable<Beer[]> {
     if (!term.trim()) {
-      // if not search term, return empty Beer array.
-      return of([]);
+      // if not search term, return empty response.
+      return new Observable<Beer[]>();
     }
 
     return this.http.get<Beer[]>(`${this.uri}?name=${term}`).pipe(
@@ -56,8 +55,8 @@ export class BeerService {
   );
   }
 
-  getBeersByCountry(countryCode: string): Observable<Beer[]> {
-    const url = `http://localhost:4000/locations?countryCode=${countryCode}`;
+  getBeersByCountry(countryCode: string, page: number): Observable<Beer[]> {
+    const url = `http://localhost:4000/beers?countryCode=${countryCode}&page=${page}`;
     return this.http.get<Beer[]>(url)
     .pipe(
       retry(1),
@@ -65,8 +64,8 @@ export class BeerService {
   );
   }
 
-  getBeersByStyle(id: number): Observable<Beer[]> {
-    const url = `http://localhost:4000/beers?styleId=${id}`;
+  getBeersByStyle(id: number, page: number): Observable<Beer[]> {
+    const url = `http://localhost:4000/beers?styleId=${id}&page=${page}`;
     return this.http.get<Beer[]>(url)
     .pipe(
       retry(1),

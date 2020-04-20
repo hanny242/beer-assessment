@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Beers } from '../models/beer';
 import { Beer } from '../models/beer';
 import { Style } from '../models/style';
 import { Country } from '../models/country';
 import { BeerService } from '../services/beer.service';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-beers',
@@ -14,33 +11,27 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./beers.component.scss']
 })
 export class BeersComponent implements OnInit {
-  beers: Observable<Beers>;
+  beers: Observable<Beer[]>;
   beerList: Observable<Beer[]>;
   styles: Observable<Style[]>;
   countries: Observable<Country[]>;
-  pageNumber: number;
+  pageNumber: number = 1;
   searchName: string;
   selectedStyleId: number;
   selectedCountryCode: string;
   beerService: BeerService;
-  config: any;
 
 
 
   constructor(beerService: BeerService) {
-    this.config = {
-      currentPage: 1,
-      itemsPerPage: 50,
-
-    }
+    
     this.beerService = beerService;
     this.selectedStyleId = -1;
-    this.selectedCountryCode = 'placeholder';
+    this.selectedCountryCode = 'default';
   }
 
   async ngOnInit() {
     this.beers = this.beerService.getBeers(1);
-    this.beerList = this.beerService.getBeers(1);
     this.styles = this.beerService.getStyles();
     this.countries = this.beerService.getCountries();
   }
@@ -50,16 +41,58 @@ export class BeersComponent implements OnInit {
   }
 
   onSearch(): void {
-    this.beerList = this.beerService.searchBeers(this.searchName);
+    if(this.searchName === '') {
+      this.beers = this.beerService.getBeers(1);
+    }
+    else {
+      this.beers = this.beerService.searchBeers(this.searchName);
+    }
   }
 
   onStyleSelect(): void {
-    this.beerList = this.beerService.getBeersByStyle(this.selectedStyleId);
-    this.selectedCountryCode = 'placeholder';
+    if(this.selectedStyleId === -1) {
+      this.beers = this.beerService.getBeers(1); 
+    }
+    else {
+      this.beers = this.beerService.getBeersByStyle(this.selectedStyleId, this.pageNumber);
+    }
+    this.selectedCountryCode = 'default';
   }
 
   onCountrySelect(): void {
-    this.beerList = this.beerService.getBeersByCountry(this.selectedCountryCode);
+    if(this.selectedCountryCode === 'default') {
+      this.beers = this.beerService.getBeers(1);
+    }
+    else {
+      this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode, this.pageNumber);
+    }
     this.selectedStyleId = -1;
   } 
+
+  nextPage(): void {
+    this.pageNumber++;
+
+    if(this.selectedStyleId != -1) {
+      this.beers = this.beerService.getBeersByStyle(this.selectedStyleId, this.pageNumber)
+    }
+    else if (this.selectedCountryCode != 'default')
+    {
+      this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode, this.pageNumber);
+    }
+    else {
+      this.beers = this.beerService.getBeers(this.pageNumber);
+    }
+  }
+  previousPage(): void {
+    this.pageNumber--;
+    
+    if(this.selectedStyleId != -1) {
+      this.beers = this.beerService.getBeersByStyle(this.selectedStyleId, this.pageNumber)
+    }
+    else if (this.selectedCountryCode != 'default')
+    {
+      this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode, this.pageNumber);
+    }
+    else{this.beers = this.beerService.getBeers(this.pageNumber);}
+  }
 }

@@ -46,3 +46,30 @@ select {
     color: rgb(194, 189, 189);
     font-family: 'Raleway', sans-serif !important;
   }
+
+  a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+  }
+  
+  a:hover {
+    background-color: grey;
+    color: white;
+  }
+  
+  .previous {
+    background-color: black;
+    color: white;
+    margin-right: 1em;
+  }
+  
+  .next {
+    background-color:black;
+    color: white;
+    margin-left: 1em;
+  }
+
+ p {
+    display: inline !important;
+  }
