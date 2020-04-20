@@ -21,9 +21,21 @@
       >
     </select>
   </div>
-  <ul class="beers">
-    <li *ngFor="let beer of beers | async">
-      <span>{{ beer.name }}</span>
-    </li>
-  </ul>
+  <div class="list">
+    <ul class="beers">
+      <li
+        *ngFor="
+          let beer of beers
+            | async
+            | paginate: config
+        "
+      >
+        <span>{{ beer.name }}</span>
+      </li>
+    </ul>
+    <pagination-controls
+      (onPageSelect)="p = $event"
+      maxSize="beers.numberOfPages"
+    ></pagination-controls>
+  </div>
 </div>

@@ -1,3 +1,8 @@
+export interface Beers {
+    numberOfPages: number;
+    beers: Beer[];
+}
+
 export interface Beer {
     id: number;
     name: string;
@@ -8,6 +13,6 @@ export interface Beer {
 }
 
 export interface Brewery {
-    id: string,
-    countryCode: string
+    id: string;
+    countryCode: string;
 }

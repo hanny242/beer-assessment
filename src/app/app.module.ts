@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BeersComponent } from './beers/beers.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { BeerService } from './services/beer.service';
 
@@ -19,7 +20,8 @@ import { BeerService } from './services/beer.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers: [BeerService],
   bootstrap: [AppComponent]
