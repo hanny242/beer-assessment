@@ -54,6 +54,7 @@ export class BeersComponent implements OnInit {
       this.beers = this.beerService.getBeers(1); 
     }
     else {
+      this.pageNumber = 1;
       this.beers = this.beerService.getBeersByStyle(this.selectedStyleId, this.pageNumber);
     }
     this.selectedCountryCode = 'default';
@@ -64,6 +65,7 @@ export class BeersComponent implements OnInit {
       this.beers = this.beerService.getBeers(1);
     }
     else {
+      this.pageNumber = 1;
       this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode, this.pageNumber);
     }
     this.selectedStyleId = -1;
