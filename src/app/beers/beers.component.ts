@@ -15,7 +15,7 @@ export class BeersComponent implements OnInit {
   beerList: Observable<Beer[]>;
   styles: Observable<Style[]>;
   countries: Observable<Country[]>;
-  pageNumber: number = 1;
+  pageNumber = 1;
   searchName: string;
   selectedStyleId: number;
   selectedCountryCode: string;
@@ -24,7 +24,6 @@ export class BeersComponent implements OnInit {
 
 
   constructor(beerService: BeerService) {
-    
     this.beerService = beerService;
     this.selectedStyleId = -1;
     this.selectedCountryCode = 'default';
@@ -41,7 +40,7 @@ export class BeersComponent implements OnInit {
   }
 
   onSearch(): void {
-    if(this.searchName === '') {
+    if (this.searchName === '') {
       this.beers = this.beerService.getBeers(1);
     }
     else {
@@ -50,8 +49,8 @@ export class BeersComponent implements OnInit {
   }
 
   onStyleSelect(): void {
-    if(this.selectedStyleId === -1) {
-      this.beers = this.beerService.getBeers(1); 
+    if (this.selectedStyleId === -1) {
+      this.beers = this.beerService.getBeers(1);
     }
     else {
       this.pageNumber = 1;
@@ -61,7 +60,7 @@ export class BeersComponent implements OnInit {
   }
 
   onCountrySelect(): void {
-    if(this.selectedCountryCode === 'default') {
+    if (this.selectedCountryCode === 'default') {
       this.beers = this.beerService.getBeers(1);
     }
     else {
@@ -69,15 +68,15 @@ export class BeersComponent implements OnInit {
       this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode, this.pageNumber);
     }
     this.selectedStyleId = -1;
-  } 
+  }
 
   nextPage(): void {
     this.pageNumber++;
 
-    if(this.selectedStyleId != -1) {
-      this.beers = this.beerService.getBeersByStyle(this.selectedStyleId, this.pageNumber)
+    if (this.selectedStyleId !== -1) {
+      this.beers = this.beerService.getBeersByStyle(this.selectedStyleId, this.pageNumber);
     }
-    else if (this.selectedCountryCode != 'default')
+    else if (this.selectedCountryCode !== 'default')
     {
       this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode, this.pageNumber);
     }
@@ -87,14 +86,16 @@ export class BeersComponent implements OnInit {
   }
   previousPage(): void {
     this.pageNumber--;
-    
-    if(this.selectedStyleId != -1) {
-      this.beers = this.beerService.getBeersByStyle(this.selectedStyleId, this.pageNumber)
+
+    if (this.selectedStyleId !== -1) {
+      this.beers = this.beerService.getBeersByStyle(this.selectedStyleId, this.pageNumber);
     }
-    else if (this.selectedCountryCode != 'default')
+    else if (this.selectedCountryCode !== 'default')
     {
       this.beers = this.beerService.getBeersByCountry(this.selectedCountryCode, this.pageNumber);
     }
-    else{this.beers = this.beerService.getBeers(this.pageNumber);}
+    else{
+      this.beers = this.beerService.getBeers(this.pageNumber);
+    }
   }
 }
